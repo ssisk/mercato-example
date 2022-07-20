@@ -1,5 +1,6 @@
 {
-  "name": "rs_explore",
+  "name": "mercato-example",
+  "description": "A simple project showing an app that works in Mercato",
   "private": true,
   "version": "0.0.0",
   "scripts": {
