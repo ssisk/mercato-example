@@ -47,17 +47,29 @@ export const rsInit = () => {
   }
 };
 
-export const doTestStuff = () => {
+export const doCreateFile = () => {
   const rs = checkedGetRs();
   const client = rs.scope(mercatoTestScope);
   const content = "This is a test, it is only a test!.";
-  const filename = `testfile${crypto.randomUUID()}.txt`
+  const filename = `testfile${Math.random() * 100000}.txt`
   client.storeFile("text/plain", filename, content)
-    .then(() => console.log("Created",filename));
+    .then(() => alert("Created file: " + filename));
 };
 
-export const doTestStuff2 = () => {
+export const doFileList = () => {
   const rs = checkedGetRs();
   const client = rs.scope(mercatoTestScope);
-  client.getAll("").then(l => console.log(l));
+  (client.getAll("")as Promise<Object>).then((l) => alert("Files in RS:\r\n" +Object.keys(l).join("\r\n")));
 };
+
+export const doBadAccess = async () => {
+  try {
+  const response = await fetch('https://api.stackexchange.com/2.3/questions?pagesize=6&order=desc&sort=activity&site=stackoverflow&tagged=prefect')
+  console.log("response was", response)
+  alert("Failed test due to successful read from another domain. This should not have been allowed on the mercato server")
+  } catch (err) {
+    alert ("Read from another domain failed. This showed Mercato blocked access outside of this domain.");
+    console.log("error thrown was:", err)
+  }
+  
+}
